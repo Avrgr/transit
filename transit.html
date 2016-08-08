@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	</head>
+	<style type="text/css">
+	li:nth-child(even){
+		background-color: #EEE;
+	}
+	</style>
+	
+	<body>
+
+	<div class="container" ng-app="TransitApp" ng-controller="StopCtrl">
+		<h2>
+			Stops:
+		</h2>
+		<ul class="list-group">
+			<li ng-repeat='x in transitData | date: "hh:mm"' class="list-group-item">
+				Stop Time is: {{ x.times.arrival.scheduled }}
+			</li>
+		</ul>
+	</div>
+
+	<script>
+	var app = angular.module('TransitApp', []);
+	app.controller('StopCtrl', function($scope, $http) {
+	  $http.get("68.php")
+	  .success(function(response) {
+	  	// console.log(response)
+	    $scope.transitData = response.schedule;
+	  })
+	  .error(function(response){
+	  	console.log($scope.error)
+	  });
+	});
+	</script>
+
+</body>
+</html>
